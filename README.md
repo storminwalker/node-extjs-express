@@ -1,7 +1,7 @@
 node-extjs-express
 ==================
 
-An extension to [node-extjs](https://github.com/storminwalker/node-extjs) to support the [ExpressJS][https://github.com/visionmedia/express] web framework.
+An extension to [node-extjs](https://github.com/storminwalker/node-extjs) to support the [ExpressJS](https://github.com/visionmedia/express) Node web framework.
 
 This is a work in progress.
 
