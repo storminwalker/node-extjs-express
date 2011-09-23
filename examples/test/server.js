@@ -1,36 +1,14 @@
 
 require.paths.unshift(__dirname);
-require.paths.unshift(__dirname + "./../../../node-extjs");
+require.paths.unshift(__dirname + "./../../../node-extjs-express");
 
-require("node-extjs");
+require("node-extjs-express");
 
-Ext.Loader.setConfig({
-      enabled: true,
-      paths: {
-      	Examples: __dirname
-      }
+new Ext.express.Application({
+	name: 'MyApp',
+	appFolder: __dirname,
+	
+  	launch: function() {
+  		console.log("launched");
+  	}
 });
-
-Ext.require("Examples.models.User");
-
-var user = Ext.create("Examples.models.User", {
-    name : 'Conan',
-    age  : 24,
-    phone: '555-555-5555'
-});
-
-user.changeName();
-
-console.log(user.get('name')); //returns "Conan The Barbarian"
-
-user.posts().add({
-	body: "This is a test"
-});
-
-console.log(user.getAssociatedData());
-
-var errors = user.validate();
-
-console.log(typeof errors);
-
-
