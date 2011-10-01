@@ -10,9 +10,13 @@
 		"url": "https://github.com/storminwalker/node-extjs-express"
 	},
 	"dependencies": {
-		"node-extjs": ">=0.0.4",
-		"express": ">=2.4.x < 3.0.0"
+		"node-extjs": ">=0.1.0",
+		"express": ">=2.4.x < 3.0.0",
+		"cradle": "0.5.x"
 	},	
+	"devDependencies": {
+		"ejs": ">=0.0.1"
+	},
 	"engines": {
 		"node": ">=0.4.0"
 	}
