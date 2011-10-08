@@ -15,21 +15,6 @@ Ext.define("MyApp.shared.model.User", {
 
 	validations: [
     	{ type: "format", field: "username", matcher: /([a-z]+)[0-9]{2,3}/ }
-    ],
+    ]
     
-    reader: {
-		type: 'json',
-		root: 'rows',
-		record: 'doc',
-		idProperty : '_id',
-		successProperty: 'ok',
-		totalProperty: 'total_rows'
-	},
-	
-	writer: {
-		allowSingle: true,
-		encode: false,
-		writeAllFields: true,
-		root: ''
-	}
 });

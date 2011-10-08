@@ -1,28 +1,10 @@
 
 var crypto = require("crypto");
 
-/*
-function hash(msg, key) {
+function _hash(msg, key) {
 	return crypto.createHmac("sha256", key).update(msg).digest('hex');
 }
-var userDb = new Ext.util.MixedCollection();
 
-userDb.add("craigwalker",  {
-	_id: "1",
-	name: 'Craig Walker',
-	username: "craigwalker",
-	salt: 'randomly-generated-salt',
-	password: hash('p', 'salt')
-});
-userDb.add("catherine",  {
-	_id: "2",
-	name: 'Catherine Walkerston ',
-	username: "catherine",
-	salt: 'randomly-generated-salt',
-	password: hash('Password123', 'salt')
-});
-
-*/
 Ext.define("MyApp.model.User", {
 
 	extend: "MyApp.shared.model.User",
@@ -44,7 +26,7 @@ Ext.define("MyApp.model.User", {
 				var user = users[0].value;
 				
 				console.log(user);
-				if (user.password == MyApp.model.User._hash(password, user.salt)) { 
+				if (user.password == _hash(password, user.salt)) { 
 					return callback(null, user);
 				}
 			
@@ -54,10 +36,6 @@ Ext.define("MyApp.model.User", {
 		
 		getAll: function(callback) {
 			return callback(userDb.getRange());
-		},
-		
-		_hash: function(msg, key) {
-			return crypto.createHmac("sha256", key).update(msg).digest('hex');
 		}
 	}
 });

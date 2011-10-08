@@ -89,7 +89,7 @@ var todo_designdoc = {
 				return sum(counts);
 			}
 		},
-		byTag: {
+		by_tag: {
 			map: function(doc) { 
 				if(doc.type && doc.type == "todo") {
 					for(var tag in doc.Tags) {
@@ -125,7 +125,7 @@ var todo_designdoc = {
 var users_designdoc = {
     language: "javascript",
     views: {
-    	byUserName: {
+    	by_username: {
 			map: function (doc) {
 	            if(doc.type && doc.type == "user") {
             		emit(doc.userName, doc);

@@ -21,21 +21,5 @@ Ext.define("MyApp.shared.model.ToDo", {
         { type: 'presence', field: 'name' },
 		{ type: 'presence', field: 'dueOn' },		
         { type: 'length', field: 'name', max: 100}
-    ],
-    
-    reader: {
-		type: 'json',
-		root: 'rows',
-		record: 'doc',
-		idProperty : '_id',
-		successProperty: 'ok',
-		totalProperty: 'total_rows'
-	},
-	
-	writer: {
-		allowSingle: true,
-		encode: false,
-		writeAllFields: true,
-		root: ''
-	}
+    ]
 });
