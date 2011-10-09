@@ -81,7 +81,7 @@ var todo_designdoc = {
 			map: function(doc) { 
 				if(doc.type && doc.type == "todo") {
 					for(var i in doc.tags) { 
-						emit(doc.tags[i], 1); 
+						emit([doc.user_id, doc.tags[i]], 1); 
 					}
 				}
 			},
@@ -93,7 +93,7 @@ var todo_designdoc = {
 			map: function(doc) { 
 				if(doc.type && doc.type == "todo") {
 					for(var tag in doc.Tags) {
-						emit(tag, doc);
+						emit([doc.user_id, tag], doc);
 					}
 				}
 			}
@@ -101,7 +101,7 @@ var todo_designdoc = {
 		completed: {
 			map: function (doc) {
 	            if(doc.type && doc.type == "todo") {
-            		emit(doc.completed || false, doc);
+            		emit([doc.user_id, doc.completed || false], doc);
             	}
             },
             reduce: function(keys, counts, rereduce) {
@@ -111,7 +111,7 @@ var todo_designdoc = {
         all: {
             map: function (doc) {
 	            if(doc.type && doc.type == "todo") {
-            		emit(doc.id, doc);
+            		emit([doc.user_id, doc._id], doc);
             	}
             },
             reduce: function(keys, counts, rereduce) {
@@ -135,7 +135,7 @@ var users_designdoc = {
 		all: {
             map: function (doc) {
 	            if(doc.type && doc.type == "user") {
-            		emit(doc.id, doc);
+            		emit(doc._id, doc);
             	}
             },
             reduce: function(keys, counts, rereduce) {
@@ -145,5 +145,5 @@ var users_designdoc = {
     }    
 }
 
-update_views(todoit, '_design/all', todo_designdoc);
+update_views(todoit, '_design/todo', todo_designdoc);
 update_views(todoit, '_design/users', users_designdoc);

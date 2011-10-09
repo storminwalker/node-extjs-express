@@ -1,6 +1,6 @@
 
-Ext.define('ToDoIt.controller.BaseController', {
-    extend: 'Ext.app.Controller',
+Ext.define("ToDoIt.controller.BaseController", {
+    extend: "Ext.app.Controller",
 
 	// init the routing...
     init: function(app) {

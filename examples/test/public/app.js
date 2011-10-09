@@ -17,18 +17,13 @@ Ext.Loader.setConfig({
 });
 
 Ext.application({
-    name: "FV",
+    name: "ToDoIt",
 
 	requires: [
-		"FV.util.Ajax",
-		"FV.util.JsonProxy"
+		"ToDoIt.util.Ajax",
+		"ToDoIt.util.JsonProxy"
 	],
 	
-    // All the paths for custom classes
-    paths: {
-        "Ext.ux": "/app/widget"
-    },
-
     // Define all the controllers that should initialize at boot up of your application
     controllers: [
     	"Login",

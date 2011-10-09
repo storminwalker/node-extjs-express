@@ -3,7 +3,7 @@ Ext.define("ToDoIt.controller.User", {
     extend: "ToDoIt.controller.BaseController",
 
 	models: [
-		"MyApp.model.User"
+		"ToDoIt.model.User"
 	],
 
 	// init the routing...
@@ -35,29 +35,5 @@ Ext.define("ToDoIt.controller.User", {
 				});	
 			}
   		});
-    },
-
-    // /users
-    getAll: function(req, res) {
-    	console.log("controller.User", "getAll");
-    
-	    ToDoIt.model.User.getAll(function(users) {
-    		res.send(users);
-    	});
-    },
-    
-    // /users/:id
-    show: function(req, res, next){
-    	res.render({ userId: "124567890" });
-	},
-  
-	// /users/:id/edit
-  	edit: function(req, res, next){
-    	res.render({ userId: "124567890" });
-  	},
-  
-  	// PUT /users/:id
-  	update: function(req, res, next){
-    	res.render({ userId: "124567890" });
-	} 
+    }
 });

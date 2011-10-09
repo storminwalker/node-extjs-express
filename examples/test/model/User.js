@@ -13,29 +13,28 @@ Ext.define("ToDoIt.model.User", {
 		login: function(username, password, callback) {
 			console.log("model.login:", username, password);
 			
-			if(Ext.isEmpty(username)) {
-				return callback(new Error('username must be provided'));
-			}
-			
-			Ext.database.Couch.getModelByView("users/byUserName", { key: username }, function(err, users) {
-				console.log(users);
-				if (! users || users.length === 0) {
-					return callback(new Error('cannot find user'));
-				}
+			Ext.database.Couch.loadModelByView("User", "users/by_username", username, {
+				success: function(user) {
+					console.log(user);
+					if(! user) {
+						return callback(new Error("cannot find user"));					
+					}
 				
-				var user = users[0].value;
-				
-				console.log(user);
-				if (user.password == _hash(password, user.salt)) { 
-					return callback(null, user);
-				}
+					console.log(user.data);
+					if (user.get("password") == _hash(password, user.get("salt"))) { 
+						return callback(null, user);
+					}
 			
-				callback(new Error('invalid password'));
+					callback(new Error("invalid password"));
+				},
+				failure: function() {
+					console.log("login failure!");
+				}
 			});
-		},
-		
-		getAll: function(callback) {
-			return callback(userDb.getRange());
 		}
+	},
+	
+	proxy: {
+        type: "couch.model"
 	}
 });

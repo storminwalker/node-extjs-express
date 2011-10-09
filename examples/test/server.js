@@ -5,11 +5,12 @@ require.paths.unshift(__dirname + "./../../../node-extjs-express");
 require("node-extjs-express");
 
 new Ext.express.Application({
-	name: "MyApp",
+	name: "ToDoIt",
 	appFolder: __dirname,
 	
 	controllers: [
-		"User"
+		"User",
+		"ToDo"
 	],
 	
 	database: {
@@ -18,12 +19,12 @@ new Ext.express.Application({
 		host: "localhost",
 		port: 5984,
 		options: { 
-			cache: true, 
+			cache: false, 
 			raw: false 
 		}
 	},
 	
   	launch: function() {
-  		console.log("launched");
+  		console.log("ToDoIt launched");
   	}
 });
