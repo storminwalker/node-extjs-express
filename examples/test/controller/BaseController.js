@@ -1,5 +1,5 @@
 
-Ext.define('MyApp.controller.BaseController', {
+Ext.define('ToDoIt.controller.BaseController', {
     extend: 'Ext.app.Controller',
 
 	// init the routing...

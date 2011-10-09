@@ -1,6 +1,6 @@
 
-Ext.define('MyApp.controller.User', {
-    extend: 'MyApp.controller.BaseController',
+Ext.define("ToDoIt.controller.User", {
+    extend: "ToDoIt.controller.BaseController",
 
 	models: [
 		"MyApp.model.User"
@@ -18,7 +18,7 @@ Ext.define('MyApp.controller.User', {
     login: function(req, res) {
     	console.log("controller.User", "login");
     	
-    	MyApp.model.User.login(req.body.userName, req.body.password, function(err, user){
+    	ToDoIt.model.User.login(req.body.userName, req.body.password, function(err, user){
     		if (user) {
 				req.session.regenerate(function(){
 					req.session.user = user;
@@ -41,7 +41,7 @@ Ext.define('MyApp.controller.User', {
     getAll: function(req, res) {
     	console.log("controller.User", "getAll");
     
-	    MyApp.model.User.getAll(function(users) {
+	    ToDoIt.model.User.getAll(function(users) {
     		res.send(users);
     	});
     },

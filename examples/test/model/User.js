@@ -5,9 +5,9 @@ function _hash(msg, key) {
 	return crypto.createHmac("sha256", key).update(msg).digest('hex');
 }
 
-Ext.define("MyApp.model.User", {
+Ext.define("ToDoIt.model.User", {
 
-	extend: "MyApp.shared.model.User",
+	extend: "ToDoIt.shared.model.User",
 
 	statics: {
 		login: function(username, password, callback) {
@@ -17,7 +17,7 @@ Ext.define("MyApp.model.User", {
 				return callback(new Error('username must be provided'));
 			}
 			
-			Ext.database.Couch.instance.view("users/byUserName", { key: username }, function(err, users) {
+			Ext.database.Couch.getModelByView("users/byUserName", { key: username }, function(err, users) {
 				console.log(users);
 				if (! users || users.length === 0) {
 					return callback(new Error('cannot find user'));
