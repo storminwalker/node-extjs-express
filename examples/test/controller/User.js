@@ -10,7 +10,7 @@ Ext.define('MyApp.controller.User', {
     init: function(app) {
         this.callParent([app]);
         
-        this.application.server.post("/login", this.login);
+        app.server.post("/login", this.login);
         
         this.get("/users", this.getAll);
     },
