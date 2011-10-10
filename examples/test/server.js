@@ -8,6 +8,10 @@ new Ext.express.Application({
 	name: "ToDoIt",
 	appFolder: __dirname,
 	
+	paths: {
+		"ToDoIt.shared.model": __dirname + "/public/app/shared/model"
+	},
+	
 	controllers: [
 		"User",
 		"ToDo"

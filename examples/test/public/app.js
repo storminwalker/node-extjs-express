@@ -32,7 +32,7 @@ Ext.application({
     ],
     	
     launch: function() {
-    	FV.app = this;
+    	ToDoIt.app = this;
     	
     	if(! this.isLoggedIn()) {
     		this.getController("Login").loadIndex();
@@ -51,7 +51,6 @@ Ext.application({
 	},
 
 	isLoggedIn: function() {
-	console.log(this);
 		return !(Ext.isEmpty(this.getCurrentSessionID()));
 	},
 	
