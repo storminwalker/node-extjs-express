@@ -1,5 +1,5 @@
 
-Ext.define("MyApp.shared.model.ToDo", {
+Ext.define("ToDoIt.shared.model.ToDo", {
     extend: 'Ext.data.Model',
     
     idProperty: "_id",

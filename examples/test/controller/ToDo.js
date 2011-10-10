@@ -1,27 +1,5 @@
 
 Ext.define("ToDoIt.controller.ToDo", {
-    extend: "ToDoIt.controller.BaseController",
-
-	models: [
-		"ToDoIt.model.ToDo"
-	],
-
-	// init the routing...
-    init: function(app) {
-        this.callParent([app]);
-        
-        app.server.post("/login", this.login);
-        
-        this.get("/users", this.getAll);
-    },
-    
-    getAll: function(req, res) {
-    
-    }
-});
-/*
-
-Ext.define("ToDoIt.controller.ToDo", {
     extend: "ToDoIt.controller.BaseController", 
     
 	models: [
@@ -94,8 +72,8 @@ Ext.define("ToDoIt.controller.ToDo", {
 			}
 		});
 		
-    } ,
-
+    } 
+    /*
     // /users
     getAll: function(req, res) {
     	console.log("controller.User", "getAll");
@@ -119,5 +97,7 @@ Ext.define("ToDoIt.controller.ToDo", {
   	update: function(req, res, next){
     	res.render({ userId: "124567890" });
 	}
+	*/
 });
-*/
+
+
