@@ -17,10 +17,6 @@ Ext.define('ToDoIt.view.Viewport', {
 		region: 'west',
 		width: 225,
 		xtype: 'feedlist'
-	}],
-	
-	initComponent: function() {
-		console.log("viewprt!");
-	}
+	}]
 });
 

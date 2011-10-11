@@ -37,7 +37,7 @@ Ext.define('ToDoIt.controller.Login', {
 				view.close();
 	
 				var obj = Ext.decode(response.responseText)
-			  	ToDoIt.app.onLogin(obj.user);  	
+				ToDoIt.app.onLogin(obj.user);  	
 			},
 			failure: function(response, opts) {
 				view.loadMask.hide();

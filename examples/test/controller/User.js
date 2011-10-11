@@ -19,21 +19,21 @@ Ext.define("ToDoIt.controller.User", {
     	console.log("controller.User", "login");
     	
     	ToDoIt.model.User.login(req.body.userName, req.body.password, function(err, user){
-    		if (user) {
-				req.session.regenerate(function(){
-					req.session.user = user;
-					res.send({
-						success: true,
-						user: user
-					});
-				});
-			} else {
-				res.send(401, {
+    		if(err) {
+    			return res.send(401, {
 					success: false,
 					authenticated: false,
 					username: req.body.username
 				});	
-			}
+    		}
+    		
+			req.session.regenerate(function(){
+				req.session.user = user.data;
+				res.send({
+					success: true,
+					user: user.data
+				});
+			});
   		});
     }
 });

@@ -11,12 +11,12 @@ Ext.define('ToDoIt.view.todo.Grid', {
     
 	initComponent: function() {
 	
-		var rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
-			clicksToMoveEditor: 1
-		});
+	//	var rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
+//			clicksToMoveEditor: 1
+//		});
 	
 		Ext.apply(this, {
-		    store: 'ToDos',
+		 //   store: 'ToDos',
 
 			columns: [{
 				text: 'Priority',
@@ -28,11 +28,9 @@ Ext.define('ToDoIt.view.todo.Grid', {
 			},{
 				text: 'Name',
 				dataIndex: 'name',
-				flex: 1
 			}, {
 				text: 'Notes',
 				dataIndex: 'notes',
-				flex: 1
 			},  {
 				text: 'Due',
 				dataIndex: 'dueOn',
@@ -40,7 +38,7 @@ Ext.define('ToDoIt.view.todo.Grid', {
 			},{
 				text: 'Tags',
 				dataIndex: 'tags',
-			},{
+			}/*,{
 				xtype: 'checkcolumn',
 				header: 'Completed?',
 				dataIndex: 'completed',
@@ -49,11 +47,13 @@ Ext.define('ToDoIt.view.todo.Grid', {
 					xtype: 'checkbox',
 					cls: 'x-grid-checkheader-editor'
 				}
-			}],
+			}*/]
+		});
+			/*,
 			
 			tbar: [{
 				text: 'Add',
-				iconCls: 'todo-add'/*,
+				iconCls: 'todo-add',
 				handler : function() {
 					rowEditing.cancelEdit();
 	
@@ -68,11 +68,11 @@ Ext.define('ToDoIt.view.todo.Grid', {
 	
 					store.insert(0, r);
 					rowEditing.startEdit(0, 0);
-				}*/
+				}
 			}, {
 				itemId: 'deleteTodo',
 				text: 'Delete',
-				iconCls: 'todo-delete'/*,
+				iconCls: 'todo-delete',
 				handler: function() {
 					var sm = grid.getSelectionModel();
 					rowEditing.cancelEdit();
@@ -81,7 +81,7 @@ Ext.define('ToDoIt.view.todo.Grid', {
 						sm.select(0);
 					}
 				},
-				disabled: true*/
+				disabled: true
 			}],
 	        plugins: [rowEditing],
 			listeners: {
@@ -89,7 +89,7 @@ Ext.define('ToDoIt.view.todo.Grid', {
 					grid.down('#deleteTodo').setDisabled(!records.length);
 				}
 			}
-		});
+		});*/
 
 		this.callParent(arguments);
 	},

@@ -13,7 +13,7 @@ Ext.define("ToDoIt.model.User", {
 		login: function(username, password, callback) {
 			console.log("model.login:", username, password);
 			
-			Ext.database.Couch.loadModelByView("User", "users/by_username", username, {
+			Ext.database.Couch.loadModelByView("ToDoIt.model.User", "users/by_username", username, {
 				success: function(user) {
 					console.log(user);
 					if(! user) {
@@ -28,7 +28,7 @@ Ext.define("ToDoIt.model.User", {
 					callback(new Error("invalid password"));
 				},
 				failure: function() {
-					console.log("login failure!");
+					return callback(new Error("cannot find user"));	
 				}
 			});
 		}
