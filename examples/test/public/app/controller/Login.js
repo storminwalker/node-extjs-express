@@ -1,10 +1,6 @@
 
-Ext.define('FV.controller.Login', {
+Ext.define('ToDoIt.controller.Login', {
     extend: 'Ext.app.Controller',
-
-//    stores: ['Articles'],
-
-  //  models: ['Article'],
 
     views: ["Login"],
     
@@ -16,7 +12,6 @@ Ext.define('FV.controller.Login', {
     }],
 
     init: function() {
-    console.log("inited");
         this.control({
             "loginwindow": {
                 login: this.onLogin
@@ -32,7 +27,7 @@ Ext.define('FV.controller.Login', {
     onLogin: function(view, userName, password) {
     	view.setLoading("Logging in...");
     
-    	FV.util.Ajax.post({
+    	ToDoIt.util.Ajax.post({
 			url: "/login",
 			params: {
 				userName: userName,
@@ -42,7 +37,7 @@ Ext.define('FV.controller.Login', {
 				view.close();
 	
 				var obj = Ext.decode(response.responseText)
-			  	FV.app.onLogin(obj.user);  	
+			  	ToDoIt.app.onLogin(obj.user);  	
 			},
 			failure: function(response, opts) {
 				view.loadMask.hide();
@@ -50,7 +45,6 @@ Ext.define('FV.controller.Login', {
 			},
 			scope: this
 		});
-    	
     }
 });
 

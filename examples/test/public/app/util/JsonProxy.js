@@ -1,14 +1,13 @@
 
-Ext.define("FV.util.JsonProxy", {
+Ext.define("ToDoIt.util.JsonProxy", {
 	extend: "Ext.data.proxy.Ajax",
 	alias: "proxy.json",
 	
-	defaultReaderType: "xero-jsonreader",
+	defaultReaderType: "json",
 	
     constructor: function(config) {
-        
-		config = config || {};
         /*
+        config = config || {};
         config.headers = config.headers || {};
         
         Ext.applyIf(config.headers, {
@@ -17,7 +16,8 @@ Ext.define("FV.util.JsonProxy", {
         
         config.url = XERO.config.apiUrl + config.url;
         */
-        XERO.utils.JsonProxy.superclass.constructor.call(this, config);
+        
+        this.callParent(arguments);
         
         this.on("exception", this.onException, this);
     },
@@ -39,7 +39,7 @@ Ext.define("FV.util.JsonProxy", {
             disableCaching: false // explicitly set it to false, ServerProxy handles caching
         });
         
-        FV.util.Ajax.request(request);
+        ToDoIt.util.Ajax.request(request);
         
         return request;
     },
@@ -57,6 +57,6 @@ Ext.define("FV.util.JsonProxy", {
 			}
     	}
     	
-   		FV.app.handleError({ status: response.status, msg: msg });
+   		ToDoIt.app.handleError({ status: response.status, msg: msg });
     }
 });

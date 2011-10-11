@@ -1,5 +1,5 @@
 
-Ext.define('FV.view.Login', {
+Ext.define('ToDoIt.view.Login', {
 	extend: 'Ext.window.Window',
 
 	alias: 'widget.loginwindow',

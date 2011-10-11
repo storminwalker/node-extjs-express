@@ -9,7 +9,7 @@ Ext.define("ToDoIt.controller.ToDo", {
 	// init the routing...
     init: function(app) {
         this.callParent([app]);
-        this.get("/getall", this.getAll);
+        this.get("/todo/all", this.getAll);
     },
     
     getAll: function(req, res) {

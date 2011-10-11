@@ -7,7 +7,6 @@ Ext.define("ToDoIt.model.Feed", {
         { name: 'name', type: 'string' }
     ],
     
-    
     proxy: {
         type: "memory"
     }
