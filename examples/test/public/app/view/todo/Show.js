@@ -1,10 +1,10 @@
 
-Ext.define('ToDoIt.view.todo.Show', {
-	extend: 'Ext.panel.Panel',
-	alias: 'widget.todoshow',
+Ext.define("ToDoIt.view.todo.Show", {
+	extend: "Ext.panel.Panel",
+	alias: "widget.todoshow",
 
     requires: [
-        'ToDoIt.view.todo.Grid'
+        "ToDoIt.view.todo.Grid"
     ],
 
 	closable: false,

@@ -6,6 +6,10 @@ Ext.Loader.setConfig({
 Ext.application({
     name: "ToDoIt",
 
+	paths: {
+		'Ext.ux': './app/ux'
+	},
+	
 	requires: [
 		"ToDoIt.util.Ajax",
 		"ToDoIt.util.JsonProxy"

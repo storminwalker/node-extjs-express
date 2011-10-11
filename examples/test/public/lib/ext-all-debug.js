@@ -3806,7 +3806,6 @@ var Base = Ext.Base = function() {};
         create: function(className, data, createdFn) {
             var manager = this;
 
-
             data.$className = className;
 
             return new Class(data, function() {

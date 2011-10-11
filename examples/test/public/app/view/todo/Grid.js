@@ -1,22 +1,25 @@
 
-Ext.define('ToDoIt.view.todo.Grid', {
-	extend: 'Ext.grid.Panel',
-	alias: 'widget.todogrid',
+Ext.define("ToDoIt.view.todo.Grid", {
+	extend: "Ext.grid.Panel",
+	alias: "widget.todogrid",
 
-	cls: 'todo-grid',
+	cls: "todo-grid",
 	
-    requires: ['Ext.toolbar.Toolbar'],
+    requires: [
+    	"Ext.toolbar.Toolbar",
+   		"Ext.ux.CheckColumn"
+    ],
     
     border: false,
     
 	initComponent: function() {
 	
-	//	var rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
-//			clicksToMoveEditor: 1
-//		});
+		var rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
+			clicksToMoveEditor: 1
+		});
 	
 		Ext.apply(this, {
-		 //   store: 'ToDos',
+		    store: 'ToDos',
 
 			columns: [{
 				text: 'Priority',
@@ -38,7 +41,7 @@ Ext.define('ToDoIt.view.todo.Grid', {
 			},{
 				text: 'Tags',
 				dataIndex: 'tags',
-			}/*,{
+			},{
 				xtype: 'checkcolumn',
 				header: 'Completed?',
 				dataIndex: 'completed',
@@ -47,7 +50,7 @@ Ext.define('ToDoIt.view.todo.Grid', {
 					xtype: 'checkbox',
 					cls: 'x-grid-checkheader-editor'
 				}
-			}*/]
+			}]
 		});
 			/*,
 			
@@ -89,8 +92,8 @@ Ext.define('ToDoIt.view.todo.Grid', {
 					grid.down('#deleteTodo').setDisabled(!records.length);
 				}
 			}
-		});*/
-
+		});
+*/
 		this.callParent(arguments);
 	},
 
