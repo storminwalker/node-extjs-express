@@ -25,8 +25,6 @@ Ext.application({
     launch: function() {
     	ToDoIt.app = this;
     	
-    	console.log("launch!");
-    	
     	if(! this.isLoggedIn()) {
     		this.getController("Login").loadIndex();
     	}

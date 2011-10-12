@@ -34,8 +34,9 @@ Ext.define('ToDoIt.controller.Login', {
 				password: password
 			},
 			success: function(response) {
+				view.loadMask.hide();
 				view.close();
-	
+				
 				var obj = Ext.decode(response.responseText)
 				ToDoIt.app.onLogin(obj.user);  	
 			},
