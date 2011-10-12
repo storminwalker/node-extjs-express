@@ -14,7 +14,7 @@ Ext.define("ToDoIt.view.todo.Grid", {
     
 	initComponent: function() {
 	
-		var rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
+		this.rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
 			clicksToMoveEditor: 1
 		});
 	
@@ -23,7 +23,11 @@ Ext.define("ToDoIt.view.todo.Grid", {
 
 			columns: [{
 				text: 'Priority',
-				dataIndex: 'priority'
+				dataIndex: 'priority',
+				editor: {
+					xtype: 'numberfield',
+					allowBlank: false
+				}
 			},{
 				text: 'Created',
 				dataIndex: 'createdOn',
@@ -31,16 +35,33 @@ Ext.define("ToDoIt.view.todo.Grid", {
 			},{
 				text: 'Name',
 				dataIndex: 'name',
+				flex: 1,
+				editor: {
+					allowBlank: true
+				}
 			}, {
 				text: 'Notes',
 				dataIndex: 'notes',
+				flex: 1,
+				editor: {
+					xtype: 'textareafield',
+					grow: true
+				}
 			},  {
 				text: 'Due',
 				dataIndex: 'dueOn',
-				renderer: this.formatDate
+				renderer: this.formatDate,
+				editor: {
+					xtype: 'datefield',
+					allowBlank: true,
+					format: 'm/d/Y'
+				}
 			},{
 				text: 'Tags',
 				dataIndex: 'tags',
+				editor: {
+					allowBlank: true
+				}
 			},{
 				xtype: 'checkcolumn',
 				header: 'Completed?',
@@ -59,22 +80,10 @@ Ext.define("ToDoIt.view.todo.Grid", {
 				itemId: 'deleteTodo',
 				text: 'Delete',
 				iconCls: 'todo-delete',
-				handler: function() {
-					var sm = grid.getSelectionModel();
-					rowEditing.cancelEdit();
-					store.remove(sm.getSelection());
-					if (store.getCount() > 0) {
-						sm.select(0);
-					}
-				},
+				action: "delete",
 				disabled: true
 			}],
-	        plugins: [rowEditing],
-			listeners: {
-				'selectionchange': function(view, records) {
-					grid.down('#deleteTodo').setDisabled(!records.length);
-				}
-			}
+	        plugins: [this.rowEditing]
 		});
 
 		this.callParent(arguments);
