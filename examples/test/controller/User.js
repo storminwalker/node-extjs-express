@@ -31,7 +31,11 @@ Ext.define("ToDoIt.controller.User", {
 				req.session.user = user.data;
 				res.send({
 					success: true,
-					user: user.data
+					user: {
+						sessionID: user.getId(),
+						name: user.get("name"),
+						userName: user.get("userName")
+					}
 				});
 			});
   		});

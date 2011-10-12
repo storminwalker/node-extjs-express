@@ -5,9 +5,9 @@ Ext.define('ToDoIt.store.Feeds', {
     model: 'ToDoIt.model.Feed',
 
     data: [
-        { name: 'ToDo', url: "/todo/todo" },
-        { name: 'Completed', url: "/todo/completed" },
-        { name: 'All', url: "/todo/all" }
+        { name: 'ToDo', description: "Still to do...", params: { completed: false }},
+        { name: 'Completed', description: "Completed", params: { completed: true }},
+        { name: 'All', description: "All", params: null}
     ]
 });
 

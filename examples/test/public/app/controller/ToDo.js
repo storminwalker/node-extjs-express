@@ -14,6 +14,24 @@ Ext.define('ToDoIt.controller.ToDo', {
     }],
 
     init: function() {
+    
+    
+    ,
+				handler : function() {
+					rowEditing.cancelEdit();
+	
+					// Create a model instance
+					var r = Ext.create('Employee', {
+						name: 'New Guy',
+						email: 'new@sencha-test.com',
+						start: new Date(),
+						salary: 50000,
+						active: true
+					});
+	
+					store.insert(0, r);
+					rowEditing.startEdit(0, 0);
+				}
 /*        this.control({
         	
             'articlegrid': {

@@ -7,8 +7,9 @@ Ext.define('ToDoIt.controller.Feeds', {
     models: ['Feed'],
     
     refs: [
-        { ref: 'toDoList', selector: 'todolist'},
+        { ref: 'toDoList', selector: 'todolist'},        
         { ref: 'toDoListDataView', selector: 'todolist dataview'},
+        { ref: 'toDoShow', selector: 'todoshow'},
         { ref: 'toDoGrid', selector: 'todogrid'}
     ],
     
@@ -16,7 +17,7 @@ Ext.define('ToDoIt.controller.Feeds', {
     // is executed on the Application
     init: function() {
         this.control({
-            'feedlist dataview': {
+            'todolist dataview': {
                 selectionchange: this.loadToDos
             }
         });
@@ -33,17 +34,15 @@ Ext.define('ToDoIt.controller.Feeds', {
     },
     
     loadToDos: function(selModel, selected) {
-        var grid = this.getTodoGrid(),
+        var grid = this.getToDoGrid(),
             store = this.getToDosStore(),
             feed = selected[0];
 
         if (feed) {
-            this.getFeedShow().setTitle(feed.get('name'));
+            this.getToDoShow().setTitle(feed.get("description"));
             grid.enable();
             store.load({
-                params: {
-                    feed: feed.get('url')
-                }
+                params: feed.get("params")
             });            
         }
     }

@@ -15,12 +15,10 @@ Ext.define("ToDoIt.model.User", {
 			
 			Ext.database.Couch.loadModelByView("ToDoIt.model.User", "users/by_username", username, {
 				success: function(user) {
-					console.log(user);
 					if(! user) {
 						return callback(new Error("cannot find user"));					
 					}
 				
-					console.log(user.data);
 					if (user.get("password") == _hash(password, user.get("salt"))) { 
 						return callback(null, user);
 					}

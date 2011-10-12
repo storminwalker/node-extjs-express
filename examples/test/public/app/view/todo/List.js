@@ -18,7 +18,7 @@ Ext.define('ToDoIt.view.todo.List', {
 				cls: 'feed-list',
 				itemSelector: '.feed-list-item',
 				overItemCls: 'feed-list-item-hover',
-				tpl: '<tpl for="."><div class="feed-list-item">{name}</div></tpl>'
+				tpl: '<tpl for="."><div class="feed-list-item">{description}</div></tpl>'
 			}]
 		});
 
