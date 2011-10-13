@@ -21,17 +21,23 @@ Ext.define('ToDoIt.controller.ToDo', {
 
     init: function() {
     	this.control({
-            'todogrid': {
+            "todogrid": {
             	viewready: function() {
             		this.getToDoGrid().getSelectionModel().select(this.getToDosStore().getAt(0));
             	},
                 selectionchange: this.onGridSelection
             },
-            'todogrid button[action=add]': {
+            "todogrid button[action=add]": {
                 click: this.onToDoAdd
             },
-            'todogrid button[action=delete]': {
-                click: this.viewArticle
+            "todogrid button[action=delete]": {
+                click: this.onToDoDelete
+            },
+            "todoedit button[action=save]": {
+            	click: this.onSaveToDo
+            },
+            "todoedit button[action=cancel]": {
+            	click: this.onCancelToDo
             }
         });
     },
@@ -40,8 +46,10 @@ Ext.define('ToDoIt.controller.ToDo', {
        	this.getToDoGrid().down('#deleteTodo').setDisabled(!records.length);
     	
 		if (records[0]) {
-			//this.getToDoEdit().show(true);		
+			this.getToDoEdit().expand(true);		
 			this.getToDoEdit().getForm().loadRecord(records[0]);
+			
+			this.getToDoEdit().down(".textfield[name=name]").focus();
 		}
     },
     
@@ -49,19 +57,16 @@ Ext.define('ToDoIt.controller.ToDo', {
     	var grid = this.getToDoGrid(),
     		store = this.getToDosStore();
     		
-    	grid.rowEditing.cancelEdit();
-	/*
 		// Create a model instance
-		var r = Ext.create('Employee', {
-			name: 'New Guy',
-			email: 'new@sencha-test.com',
-			start: new Date(),
-			salary: 50000,
-			active: true
-		});*/
+		var r = Ext.create("ToDoIt.model.ToDo", {
+			createdDate: new Date(),
+			dueOn: new Date(),
+			priority: 5,
+			status: "Open"
+		});
 
-		//store.insert(0, r);
-		grid.rowEditing.startEdit(0, 0);
+		store.insert(0, r);
+		grid.getSelectionModel().select(store.getAt(0));
     },
     
     onToDoDelete: function(grid) {
@@ -69,11 +74,32 @@ Ext.define('ToDoIt.controller.ToDo', {
     		store = this.getToDosStore();
     		
 		var sm = grid.getSelectionModel();
-		grid.rowEditing.cancelEdit();
 		store.remove(sm.getSelection());
 		if (store.getCount() > 0) {
 			sm.select(0);
 		}
+	},
+	
+	onSaveToDo: function() {
+		console.log("save", arguments);
+	},
+	
+	onCancelToDo: function() {
+		var grid = this.getToDoGrid(),
+    		store = this.getToDosStore(),
+    		edit = this.getToDoEdit(),
+    		sm = grid.getSelectionModel();
+    		
+    	var record = edit.getRecord();
+    	if(record.phantom === true) {
+    		store.remove(record);
+    		
+    		if (store.getCount() > 0) {
+				sm.select(0);
+			}
+    	} else {
+    		sm.select(record);
+    	}
 	}
 });
 

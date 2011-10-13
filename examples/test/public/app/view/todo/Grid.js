@@ -14,10 +14,6 @@ Ext.define("ToDoIt.view.todo.Grid", {
     
 	initComponent: function() {
 	
-		this.rowEditing = Ext.create('Ext.grid.plugin.RowEditing', {
-			clicksToMoveEditor: 1
-		});
-	
 		Ext.apply(this, {
 		    store: 'ToDos',
 
@@ -82,8 +78,7 @@ Ext.define("ToDoIt.view.todo.Grid", {
 				iconCls: 'todo-delete',
 				action: "delete",
 				disabled: true
-			}],
-	        plugins: [this.rowEditing]
+			}]
 		});
 
 		this.callParent(arguments);

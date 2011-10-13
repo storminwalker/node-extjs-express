@@ -4,48 +4,80 @@ Ext.define("ToDoIt.view.todo.Edit", {
 	alias: "widget.todoedit",
 
 	initComponent: function() {
-		
+	
 		Ext.apply(this, {
+			region: 'south',
+			frame: true,
+			border: true,
 			title: "Edit ToDo",
 			bodyStyle:'padding:5px 5px 0',
-			width: 350,
-			fieldDefaults: {
-				msgTarget: 'side',
-				labelWidth: 75
-			},
-			defaultType: 'textfield',
-			defaults: {
-				anchor: '100%'
-			},
+			collapsible: true,
+			collapseDirection: "bottom",
 			items: [{
-				fieldLabel: 'First Name',
-				name: 'first',
-				allowBlank:false
-			},{
-				fieldLabel: 'Last Name',
-				name: 'last'
-			},{
-				fieldLabel: 'Company',
-				name: 'company'
+				fieldLabel: 'Action',
+				xtype: 'textfield',
+				name: 'name',
+				anchor: "100%",
+				allowBlank: false
 			}, {
-				fieldLabel: 'Email',
-				name: 'email',
-				vtype:'email'
+				xtype: "container",
+				anchor: '100%',
+				layout:'column',
+				defaults: {
+					xtype: "container",
+					columnWidth: 0.5,
+					layout: 'anchor',
+					border: false
+				},
+				items: [{
+					items: [{
+						xtype: 'datefield',
+						fieldLabel: 'Start Date',
+						name: "createdDate",
+						anchor:'96%'
+					},{
+						xtype: 'datefield',
+						fieldLabel: 'Due Date',
+						name: "dueOn",
+						anchor:'96%'
+					}]
+				},{
+					items: [{
+						xtype: "numberfield",
+						fieldLabel: 'Priority',
+						anchor:'100%',
+						name: "priority"
+					},{
+						xtype: 'combobox',
+						name: 'status',
+						mode: 'local',
+						store: ['Open', 'On Hold', 'Waiting', 'Inactive'],
+						editable: true,
+						forceSelection: true,
+						triggerAction: 'all',
+						emptyText: 'Status',
+						selectOnFocus: true,
+						typeAhead: true,
+						fieldLabel: 'Status',
+						anchor:'100%'
+					}]
+				}]
 			}, {
-				xtype: 'timefield',
-				fieldLabel: 'Time',
-				name: 'time',
-				minValue: '8:00am',
-				maxValue: '6:00pm'
-			}],
-	
+				xtype: 'htmleditor',
+				name: 'notes',
+				fieldLabel: 'Notes',
+				height: 200,
+				anchor: '100%'
+        	}],
 			buttons: [{
-				text: 'Save'
+				text: "Save",
+				action: "save"
 			},{
-				text: 'Cancel'
+				text: "Cancel",
+				action: "cancel"
 			}]
 		});
-	
+		
 		this.callParent(arguments);
 	}
 });

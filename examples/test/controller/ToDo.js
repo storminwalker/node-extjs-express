@@ -10,6 +10,17 @@ Ext.define("ToDoIt.controller.ToDo", {
     init: function(app) {
         this.callParent([app]);
         this.get("/todo/all", this.getAll);
+        
+        /*
+        app.param('userId', function(req, res, next, id){
+  User.get(id, function(err, user){
+    if (err) return next(err);
+    if (!user) return next(new Error('failed to find user'));
+    req.user = user;
+    next();
+  });
+});*/
+        
     },
     
     getAll: function(req, res) {
@@ -23,53 +34,13 @@ Ext.define("ToDoIt.controller.ToDo", {
 			}
 		});
     	
-    	function write(records, config) {
-			var records  = records || [],
-				config	 = config || {},
-				len      = records.length,
-				i        = 0,
-				data     = [],
-				excludes = config.excludes || [],
-				deep	 = config.deep || false;
-		
-			for (; i < len; i++) {
-				data.push(getRecordData(records[i], deep, excludes));
-			}
-			return data;
-		}
-		
-		function getRecordData(record, deep, excludes) {
-			var fields = record.fields,
-				data = {},
-				changes,
-				name,
-				field,
-				key;
-			
-			fields.each(function(field){
-				if(excludes.indexOf(field.name) === -1) {
-					data[field.name] = record.get(field.name);
-				}
-			});
-			
-			console.log(record.getAssociatedData());
-			if(deep === true) {
-				Ext.apply(data, record.getAssociatedData());
-			}
-		
-			return data;
-		}
-				
     	store.load({
 			view: "todo/all",
 			//key: ,
 			callback: function() {
-				res.send({
-					success: true,
-					total_rows: store.getTotalCount(),
-					rows: write(store.getRange())
-				});
-			}
+				this.send(res, store);
+			},
+			scope: this
 		});
 		
     } 

@@ -7,10 +7,11 @@ Ext.define("ToDoIt.shared.model.User", {
     fields: [
     	{ name: "_id", type: "string" },
         { name: "_rev", type: "string" },
-        { name: "name",     type: "string" },
-        { name: "username", type: "string" },
-        { name: "password", type: "string" },
-        { name: "salt", type: "string" }
+        { name: "firstName", type: "string" },
+        { name: "lastName", type: "string" },
+        { name: "userName", type: "string" },
+        { name: "email", type: "string" },
+        { name: "password", type: "string" }
     ],
 
 	validations: [

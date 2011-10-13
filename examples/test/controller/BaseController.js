@@ -1,4 +1,40 @@
 
+function write(records, config) {
+	var records  = records || [],
+		config	 = config || {},
+		len      = records.length,
+		i        = 0,
+		data     = [],
+		excludes = config.excludes || [],
+		deep	 = config.deep || false;
+
+	for (; i < len; i++) {
+		data.push(getRecordData(records[i], deep, excludes));
+	}
+	return data;
+};
+
+function getRecordData(record, deep, excludes) {
+	var fields = record.fields,
+		data = {},
+		changes,
+		name,
+		field,
+		key;
+	
+	fields.each(function(field){
+		if(excludes.indexOf(field.name) === -1) {
+			data[field.name] = record.get(field.name);
+		}
+	});
+	
+	if(deep === true) {
+		Ext.apply(data, record.getAssociatedData());
+	}
+
+	return data;
+}
+
 Ext.define("ToDoIt.controller.BaseController", {
     extend: "Ext.app.Controller",
 
@@ -32,6 +68,16 @@ Ext.define("ToDoIt.controller.BaseController", {
     del: function(route, callback) {
     	this.application.server.del(route, Ext.bind(this.authenticate, this), Ext.bind(callback, this));
     },
+    
+    send: function(res, store, config) {
+    console.log(write(store.getRange()));
+    
+    	res.send({ 
+    		success: true,
+			total_rows: store.getTotalCount(),
+			rows: write(store.getRange())
+		});
+    }
     
     /*
     
