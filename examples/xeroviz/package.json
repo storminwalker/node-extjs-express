@@ -1,0 +1,14 @@
+{ 
+	"name": "xeroviz", 
+	"description": "A node.js usage vizualization server for xero.com",
+	"version": "0.9.1",
+	"dependencies": {
+		"node-extjs": ">= 0.1.0",
+        "socket.io": "0.8.x",
+        "node-static": "0.5.x",
+        "geoip": "0.4.x"
+    },
+    "engines": { 
+  		"node": ">= 0.4.1 < 0.5.0" 
+  	}
+}

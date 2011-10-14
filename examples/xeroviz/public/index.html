@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+  	<title>XeroViz</title>
+
+	<link rel="stylesheet" media="all" href="/css/xeroviz.css" />
+  	
+    <link rel="icon" href="/images/favicon.png" type="image/png" />
+    
+    <script src="/js/ext-all-debug.js"></script>
+
+  	<script src="http://127.0.0.1:5000/socket.io/socket.io.js"></script>
+
+	<!-- google maps V3 --->
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
+    
+  	<script src="/js/socket.js"></script>
+  	<!--<script src="/js/polymaps.js"></script>-->
+  	
+	<script src="/js/ext.ux.gmappanel.js"></script>
+ 
+	<script src="/js/map.js"></script>
+	<script src="/js/chart.js"></script>
+ 
+</head>
+
+<body>
+
+	<h1>XeroViz</h1>
+	
+	<button id="send-traffic" style="margin-left: 60px;">Send test traffic</button>
+
+	<div style="clear: both;"></div>
+	
+	<div id="graph-container" style="margin: 40px; position: relative;"></div>
+	
+	<div id="map-container" style="margin: 40px; position: relative;"></div>
+	
+	<script type="text/javascript">	
+		Ext.onReady(function() {
+			var socket = Ext.create("XERO.viz.Socket", { 
+				port: 5000 
+			});
+			socket.start();
+			
+			Ext.create('Ext.Panel', {
+                layout: 'fit',
+                width:512,
+                height:334,
+                border: false,
+                x: 40,
+                y: 60,
+                renderTo: "map-container",
+                items: {
+                    xtype: "vizmap",
+                    socket: socket,
+                    zoomLevel: 1,
+					gmapType: 'map',
+					mapConfOpts: ['enableScrollWheelZoom','enableDoubleClickZoom','enableDragging'],
+					mapControls: ['GSmallMapControl','GMapTypeControl'],
+					setCenter: {
+						lat: 39, 
+						lng: 10
+					}
+                }
+            });
+           
+			Ext.create('Ext.Panel', {
+				width: 512,
+				height: 300,
+				renderTo: "graph-container",
+				layout: 'fit',
+				items: [{
+					xtype: "vizchart",
+					socket: socket
+				}]
+			});
+	    
+		});
+	</script>
+	
+	
+  <script type="text/javascript">
+  
+  	Ext.onReady(function() {
+		
+		window.counter = 0;
+	        
+  		Ext.fly("send-traffic").on("click", function(e) {
+	        e.stopEvent();
+	        
+	        var ipaddresses = [
+	        	"79.97.219.68",
+				"135.196.241.218",
+				"82.132.248.22",
+				"203.45.184.202",
+				"118.90.16.213",
+				"89.240.1.210",
+				"41.134.34.241",
+				"86.134.65.34",
+				"121.98.252.12",
+				"203.94.74.10",
+				"122.60.139.70",
+				"122.59.8.117",
+				"203.23.211.199",
+				"123.3.231.131",
+				"222.154.188.126",
+				"203.118.182.49",
+				"124.181.152.14",
+				"125.255.117.75",
+				"121.73.240.136",
+				"84.235.53.196",
+				"139.130.61.126",
+				"122.57.10.250",
+				"125.255.40.247",
+				"121.212.246.20",
+				"202.154.151.29",
+				"58.110.115.111",
+				"203.35.128.147",
+				"118.92.159.65",
+				"203.109.200.63",
+				"121.200.233.36",
+				"118.93.151.22",
+				"125.236.236.209",
+				"60.234.208.39",
+				"120.151.170.144",
+				"110.174.10.89",
+				"121.98.77.160",
+				"118.102.253.164",
+				"101.169.245.239",
+				"110.174.44.156",
+				"124.179.70.201",
+				"121.212.240.127",
+				"121.98.134.199",
+				"124.182.243.63",
+				"220.233.19.46",
+				"58.104.123.45",
+				"121.72.247.211",
+				"121.74.134.120",
+				"119.224.37.59",
+				"203.97.202.63",
+				"121.73.21.56",
+				"222.154.248.207",
+				"123.200.159.116",
+				"203.198.248.167",
+				"60.234.154.166",
+				"58.69.90.50",
+				"210.86.2.68",
+				"125.236.200.120",
+				"125.237.45.14",
+				"125.212.37.2",
+				"118.92.30.141",
+				"165.228.160.120",
+				"118.93.202.85",
+				"143.238.233.101",
+				"58.108.188.88",
+				"24.244.183.167",
+				"202.180.109.49",
+				"76.28.209.235",
+				"58.84.234.135",
+				"121.210.18.210",
+				"203.217.56.200",
+				"115.189.63.198",
+				"124.168.221.43",
+				"125.237.165.79",
+				"125.236.236.209",
+				"121.73.82.56",
+				"119.224.63.227",
+				"203.45.99.248",
+				"125.237.21.154",
+				"58.179.93.116",
+				"203.173.41.64",
+				"165.228.62.47",
+				"58.105.68.224",
+				"203.217.29.111",
+				"121.79.206.51",
+				"124.182.38.63",
+				"110.32.38.72",
+				"219.89.207.219",
+				"120.151.240.226",
+				"203.96.65.186",
+				"203.211.72.73",
+				"202.37.70.135",
+				"120.151.217.99",
+				"121.217.19.56",
+				"203.206.21.146",
+				"202.44.188.154",
+				"122.60.35.23",
+				"118.92.86.183",
+				"219.89.207.219",
+				"210.55.104.23",
+				"202.37.70.136"
+			];
+	        
+	        if(window.counter < ipaddresses.length) {
+				Ext.defer(function() {
+					var img = document.createElement('img');
+					img.src = "http://" + document.location.hostname + ":5000/tracking.gif?_dc=" + Math.ceil(Math.random() * 1000000) + "&ip=" + ipaddresses[window.counter];
+					console.log(img.src);
+					window.counter++;
+				}, 100);
+			} else {
+				window.counter = 0;
+			}
+		});
+  	});  
+  </script>
+
+
+</body>
+</html>
