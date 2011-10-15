@@ -15,6 +15,18 @@ Ext.define('ToDoIt.view.Login', {
 	modal: true,
 
 	initComponent: function() {
+	
+		this.userNameField = Ext.create("widget.textfield", {
+			fieldLabel: "Login",
+			name: "username"
+		});
+		
+		this.passwordField = Ext.create("widget.textfield", {
+			inputType: "password",
+			fieldLabel: "Password",
+			name: "password"
+		});
+	
 		Ext.apply(this, {
 			buttons: [{
 				text: 'Login',
@@ -34,16 +46,10 @@ Ext.define('ToDoIt.view.Login', {
 					itemId: "error-msg",
 					html: "Login didn't work",
 					hidden: true
-				},{
-					xtype: 'textfield',
-					fieldLabel: 'Login',
-					name: 'username'
-				},{
-					xtype: 'textfield',
-					inputType: 'password',
-					fieldLabel: 'Password',
-					name: 'password'
-				}]
+				},
+				this.userNameField,
+				this.passwordField
+				]
 			}]
 		});
 
@@ -51,11 +57,21 @@ Ext.define('ToDoIt.view.Login', {
 		this.callParent(arguments);
 	},
 	
-	login: function() {
-		this.down("form > textfield[inputType='password']").blur();
+	onRender: function() {
+		this.callParent(arguments);
+		
+		Ext.create("Ext.util.KeyNav", this.getEl(), {
+			scope: this,
+			enter: this.login
+		});
+
+	},
 	
-		var userName = this.down("form > textfield[name='username']").getValue();
-		var password = this.down("form > textfield[name='password']").getValue();
+	login: function() {
+		this.passwordField.blur();
+	
+		var userName = this.userNameField.getValue();
+		var password = this.passwordField.getValue();
 
 		this.fireEvent("login", this, userName, password);  	
 	},

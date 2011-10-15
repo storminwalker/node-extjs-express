@@ -8,7 +8,10 @@ Ext.define('ToDoIt.store.ToDos', {
 		type: "json",
 		url: "/todo/all",
 		reader: {
-			type: 'json'
+			type: "json",
+			idProperty: "_id",
+			root: "rows",
+			totalProperty: "total_rows"
 		}
 	},
 

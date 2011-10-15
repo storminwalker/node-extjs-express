@@ -38,11 +38,11 @@ function getRecordData(record, deep, excludes) {
 Ext.define("ToDoIt.controller.BaseController", {
     extend: "Ext.app.Controller",
 
+	baseUrl: "",
+
 	// init the routing...
     init: function(app) {
         console.log("base");
-        
-        //app.server.use(Ext.bind(this.authenticate, this));
     },
     
     authenticate: function(req, res, next) {
@@ -51,31 +51,67 @@ Ext.define("ToDoIt.controller.BaseController", {
 		if (req.session && req.session.user) {
 			next();
 		} else {
-			res.send("401", {
+			res.send(401, {
 				authenticated: false
 			});
 		}
     },
     
+    buildUrl: function(path) {
+    	return this.baseUrl + path;
+    },
+    
     get: function(route, callback) {
-    	this.application.server.get(route, Ext.bind(this.authenticate, this), Ext.bind(callback, this));
+    	this.application.server.get(this.buildUrl(route), Ext.bind(this.authenticate, this), Ext.bind(callback, this));
     },
     
     post: function(route, callback) {
-    	this.application.server.post(route, Ext.bind(this.authenticate, this), Ext.bind(callback, this));
+    	this.application.server.post(this.buildUrl(route), Ext.bind(this.authenticate, this), Ext.bind(callback, this));
     },
     
     del: function(route, callback) {
-    	this.application.server.del(route, Ext.bind(this.authenticate, this), Ext.bind(callback, this));
+    	this.application.server.del(this.buildUrl(route), Ext.bind(this.authenticate, this), Ext.bind(callback, this));
     },
     
-    send: function(res, store, config) {
-    console.log(write(store.getRange()));
+    put: function(route, callback) {
+    	this.application.server.put(this.buildUrl(route), Ext.bind(this.authenticate, this), Ext.bind(callback, this));
+    },
     
-    	res.send({ 
+    rest: function(route, callback) {
+		this.application.server.get(this.buildUrl(route),
+			Ext.bind(this.authenticate, this), 
+			Ext.bind(callback, this),
+			Ext.bind(this.read, this)); 
+    	
+    	this.application.server.post(this.buildUrl(route),
+			Ext.bind(this.authenticate, this), 
+			Ext.bind(callback, this),
+			Ext.bind(this.create, this)); 
+			
+		this.application.server.put(this.buildUrl(route),
+			Ext.bind(this.authenticate, this), 
+			Ext.bind(callback, this),
+			Ext.bind(this.update, this)); 
+
+		this.application.server.del(this.buildUrl(route),
+			Ext.bind(this.authenticate, this), 
+			Ext.bind(callback, this),
+			Ext.bind(this.destroy, this)); 
+    },
+    
+    sendStore: function(res, store, config) {
+		res.send({ 
     		success: true,
 			total_rows: store.getTotalCount(),
-			rows: write(store.getRange())
+			rows: write(store.getRange(), config)
+		});
+    },
+    
+    sendModel: function(res, record, config) {
+		res.send({ 
+    		success: true,
+			total_rows: 1,
+			rows: write([record], config)
 		});
     }
     

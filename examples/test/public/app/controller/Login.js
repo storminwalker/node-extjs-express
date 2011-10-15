@@ -14,7 +14,8 @@ Ext.define('ToDoIt.controller.Login', {
     init: function() {
         this.control({
             "loginwindow": {
-                login: this.onLogin
+                login: this.onLogin,
+                show: this.onLoginShow
             }
         });
     },
@@ -23,6 +24,22 @@ Ext.define('ToDoIt.controller.Login', {
         var loginWindow = this.getLoginWindow();
 		loginWindow.show();
     },
+
+	onLoginShow: function(view) {
+		var loginWindow = this.getLoginWindow();
+		
+		loginWindow.passwordField.setValue("");
+		
+		var user = ToDoIt.app.getLocalUserSettings();
+		if(user && user.userName) {
+			loginWindow.userNameField.setValue(user.userName);
+			loginWindow.passwordField.focus();
+		} else {
+			loginWindow.userNameField.setValue("");
+			loginWindow.userNameField.focus();
+		}
+		
+	},
 
     onLogin: function(view, userName, password) {
     	view.setLoading("Logging in...");

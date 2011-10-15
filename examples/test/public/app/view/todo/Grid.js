@@ -20,49 +20,33 @@ Ext.define("ToDoIt.view.todo.Grid", {
 			columns: [{
 				text: 'Priority',
 				dataIndex: 'priority',
-				editor: {
-					xtype: 'numberfield',
-					allowBlank: false
-				}
+				width: 75
 			},{
 				text: 'Created',
 				dataIndex: 'createdOn',
-				renderer: this.formatDate
+				renderer: this.formatDate,
+				width: 125
 			},{
 				text: 'Name',
 				dataIndex: 'name',
-				flex: 1,
-				editor: {
-					allowBlank: true
-				}
-			}, {
+				flex: 1
+			}, /*{
 				text: 'Notes',
 				dataIndex: 'notes',
-				flex: 1,
-				editor: {
-					xtype: 'textareafield',
-					grow: true
-				}
-			},  {
+				flex: 1
+			},*/{
 				text: 'Due',
 				dataIndex: 'dueOn',
-				renderer: this.formatDate,
-				editor: {
-					xtype: 'datefield',
-					allowBlank: true,
-					format: 'm/d/Y'
-				}
+				renderer: this.formatDate
 			},{
 				text: 'Tags',
 				dataIndex: 'tags',
-				editor: {
-					allowBlank: true
-				}
+				renderer: this.formatTags
 			},{
 				xtype: 'checkcolumn',
 				header: 'Completed?',
 				dataIndex: 'completed',
-				width: 60,
+				width: 75,
 				editor: {
 					xtype: 'checkbox',
 					cls: 'x-grid-checkheader-editor'
@@ -84,6 +68,10 @@ Ext.define("ToDoIt.view.todo.Grid", {
 		this.callParent(arguments);
 	},
 
+	formatTags: function(tags) {
+		return tags.join(", ");
+	},
+	
 	formatDate: function(date) {
 		if (!date) {
 			return '';
@@ -94,14 +82,15 @@ Ext.define("ToDoIt.view.todo.Grid", {
 			notime = Ext.Date.clearTime(date, true).getTime();
 
 		if (notime === d.getTime()) {
-			return 'Today ' + Ext.Date.format(date, 'g:i a');
+			return "Today";// at ' + Ext.Date.format(date, 'g:i a');
 		}
 
-		d = Ext.Date.add(d, 'd', -6);
+		d = Ext.Date.add(d, "d", -1);
 		if (d.getTime() <= notime) {
-			return Ext.Date.format(date, 'D g:i a');
+			return "Yesterday";// at ' + Ext.Date.format(date, 'g:i a');
+//			return Ext.Date.format(date, 'D g:i a');
 		}
-		return Ext.Date.format(date, 'Y/m/d g:i a');
+		return Ext.Date.format(date, "M d, Y"); // g:i a');
 	}
 });
 

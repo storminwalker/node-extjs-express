@@ -17,15 +17,20 @@ Ext.define('ToDoIt.controller.ToDo', {
     },{
 	    ref: "toDoEdit",
 	    selector: "todoedit"
+    },{
+        ref: "toDoEditForm",
+	    selector: "todoedit > form"
     }],
 
     init: function() {
     	this.control({
             "todogrid": {
-            	viewready: function() {
-            		this.getToDoGrid().getSelectionModel().select(this.getToDosStore().getAt(0));
-            	},
                 selectionchange: this.onGridSelection
+            },
+            "todogrid > store": {
+            	load: function() {
+            		console.log("grid loaded");
+            	}
             },
             "todogrid button[action=add]": {
                 click: this.onToDoAdd
@@ -40,6 +45,10 @@ Ext.define('ToDoIt.controller.ToDo', {
             	click: this.onCancelToDo
             }
         });
+        
+        this.getToDosStore().on("load", function() {
+        	this.getToDoGrid().getSelectionModel().select(this.getToDosStore().getAt(0));
+        }, this);
     },
     
     onGridSelection: function(sm, records) {
@@ -80,8 +89,14 @@ Ext.define('ToDoIt.controller.ToDo', {
 		}
 	},
 	
-	onSaveToDo: function() {
-		console.log("save", arguments);
+	onSaveToDo: function() {		
+		var edit = this.getToDoEdit(),
+			record = edit.getRecord();
+	
+		if(record) {
+			edit.getForm().updateRecord(record);	
+			console.log(record.save());
+		}
 	},
 	
 	onCancelToDo: function() {

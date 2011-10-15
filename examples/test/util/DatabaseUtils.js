@@ -12,54 +12,72 @@ cradle.setup({
 var connection = new (cradle.Connection);
 var db = connection.database("todoit");
 
-console.log("updating todo view");
+console.log("updating todos view");
 
-db.save("_design/todo", {
+db.save("_design/todos", {
     language: "javascript",
     views: {
-    	tags: {
+    	all: {
+            map: function (doc) {
+	            if(doc.type && doc.type == "todo") {
+            		emit(doc.user_id, doc);
+            	}
+            }
+        },
+        completed: {
+			map: function (doc) {
+	            if(doc.type && doc.type == "todo") {
+            		emit([doc.user_id, doc.completed || false], doc);
+            	}
+            }	
+		},
+		tags: {
 			map: function(doc) { 
 				if(doc.type && doc.type == "todo") {
 					for(var i in doc.tags) { 
-						emit([doc.user_id, doc.tags[i]], 1); 
+						emit(doc.user_id, doc.tags[i]); 
 					}
 				}
 			},
-			reduce: function(tag, counts) { 
-				return sum(counts);
+			reduce: function(key, values, rereduce){
+				var hash = {}
+				if (!rereduce){
+					for (var i in values){
+						var tag = values[i]
+						hash[tag] = (hash[tag] || 0) + 1
+					}
+				}else{
+					for (var i in values){
+						var topN = values[i]
+						for (var i in topN){
+							var pair = topN[i]
+							var tag = pair[0]
+							hash[tag] = (hash[tag] || 0) + pair[1]
+						}
+					}
+				}
+				var all = []
+				for (var key in hash) {
+					all.push({ tag: key, count: hash[key] })
+				}
+				
+				return all.sort(function(one, other){
+					return other[1] - one[1]
+				});
 			}
 		},
 		by_tag: {
 			map: function(doc) { 
 				if(doc.type && doc.type == "todo") {
-					for(var tag in doc.Tags) {
-						emit([doc.user_id, tag], doc);
+					for(var i in doc.tags) {
+						emit([doc.user_id, doc.tags[i]], doc);
 					}
 				}
 			}
 		},
-		completed: {
-			map: function (doc) {
-	            if(doc.type && doc.type == "todo") {
-            		emit([doc.user_id, doc.completed || false], doc);
-            	}
-            },
-            reduce: function(keys, counts, rereduce) {
-                return sum(counts);
-            }		
-		},
-        all: {
-            map: function (doc) {
-	            if(doc.type && doc.type == "todo") {
-            		emit([doc.user_id, doc._id], doc);
-            	}
-            },
-            reduce: function(keys, counts, rereduce) {
-                return sum(counts);
-            }
-        }
     }    
 });
+
 
 console.log("updating users view");
 

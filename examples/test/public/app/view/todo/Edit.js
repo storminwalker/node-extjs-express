@@ -17,8 +17,7 @@ Ext.define("ToDoIt.view.todo.Edit", {
 				fieldLabel: 'Action',
 				xtype: 'textfield',
 				name: 'name',
-				anchor: "100%",
-				allowBlank: false
+				anchor: "100%"
 			}, {
 				xtype: "container",
 				anchor: '100%',
@@ -78,6 +77,10 @@ Ext.define("ToDoIt.view.todo.Edit", {
 			}]
 		});
 		
+		this.callParent(arguments);
+	},
+	
+	onRender: function() {
 		this.callParent(arguments);
 	}
 });

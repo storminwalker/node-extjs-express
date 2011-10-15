@@ -85,8 +85,6 @@ Ext.application({
 	},
 	
 	handleError: function(error) {
-		Ext.MaskMgr.each(function(key, item) { if(item) { item.hide() } })
-		
 		if(error.status && error.status == 401) {
 			this.onUnauthenticated();
 		} else {
