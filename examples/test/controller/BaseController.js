@@ -77,25 +77,24 @@ Ext.define("ToDoIt.controller.BaseController", {
     	this.application.server.put(this.buildUrl(route), Ext.bind(this.authenticate, this), Ext.bind(callback, this));
     },
     
-    rest: function(route, callback) {
-		this.application.server.get(this.buildUrl(route),
+    rest: function() {
+    	this.application.server.get(this.buildUrl("/:id"),
 			Ext.bind(this.authenticate, this), 
-			Ext.bind(callback, this),
+			Ext.bind(this.loadById, this),
 			Ext.bind(this.read, this)); 
     	
-    	this.application.server.post(this.buildUrl(route),
+    	this.application.server.post(this.buildUrl(""),
 			Ext.bind(this.authenticate, this), 
-			Ext.bind(callback, this),
 			Ext.bind(this.create, this)); 
 			
-		this.application.server.put(this.buildUrl(route),
+		this.application.server.put(this.buildUrl("/:id"),
 			Ext.bind(this.authenticate, this), 
-			Ext.bind(callback, this),
+			Ext.bind(this.loadById, this),
 			Ext.bind(this.update, this)); 
 
-		this.application.server.del(this.buildUrl(route),
+		this.application.server.del(this.buildUrl("/:id"),
 			Ext.bind(this.authenticate, this), 
-			Ext.bind(callback, this),
+			Ext.bind(this.loadById, this),
 			Ext.bind(this.destroy, this)); 
     },
     

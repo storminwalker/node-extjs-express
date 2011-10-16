@@ -10,6 +10,7 @@ Ext.define("ToDoIt.model.User", {
 	extend: "ToDoIt.shared.model.User",
 
 	fields: [
+		{ name: "type", type: "string" },
         { name: "salt", type: "string" }
     ],
     

@@ -15,9 +15,12 @@ Ext.define('ToDoIt.store.ToDos', {
 		}
 	},
 
-	sortInfo: {
-		property: 'priority',
-		direction: 'ASC'
-	}
+	sorters: [{
+		property: "priority",
+		direction: "ASC"
+	},{
+		property: "dueOn",
+		direction: "DESC"	
+	}]
 });
 

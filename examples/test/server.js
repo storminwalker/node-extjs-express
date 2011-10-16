@@ -30,5 +30,27 @@ new Ext.express.Application({
 	
   	launch: function() {
   		console.log("ToDoIt launched");
-  	}
+  	
+  		this.launchNow();
+  	},
+  	
+  	launchNow: function() {
+		var everyone = require("now").initialize(this.server);
+	    var slice = Array.prototype.slice;
+		var me = this;
+		
+		everyone.now.serverControllers = {
+			ToDo: {
+				loadMethodById: function() {
+					console.log(arguments);
+				}
+			}
+		};
+		/*everyone.now.serverControllers.ToDo.loadMethodById = */
+		
+		everyone.now.getServerController = function(name, action){
+			var args = slice.call(arguments);
+			me.getController(name)[action].apply(me, args.slice(2));
+		}
+	}
 });

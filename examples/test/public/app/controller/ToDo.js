@@ -51,6 +51,21 @@ Ext.define('ToDoIt.controller.ToDo', {
         }, this);
     },
     
+    loadToDos: function(filter, id) {
+		var grid = this.getToDoGrid(),
+			store = this.getToDosStore();
+        	    
+    	this.currentFilter = filter;
+    	
+    	store.load({
+        	params: this.currentFilter,
+        	callback: function() {        	
+	        	grid.getSelectionModel().select(store[(id) ? "getById" : "getAt"](id || 0));
+        	},
+        	scope: this
+        });
+    },
+    
     onGridSelection: function(sm, records) {
        	this.getToDoGrid().down('#deleteTodo').setDisabled(!records.length);
     	
@@ -74,8 +89,8 @@ Ext.define('ToDoIt.controller.ToDo', {
 			status: "Open"
 		});
 
-		store.insert(0, r);
-		grid.getSelectionModel().select(store.getAt(0));
+		store.add(r);
+		grid.getSelectionModel().select(store.getAt(store.data.length - 1));
     },
     
     onToDoDelete: function(grid) {
@@ -95,7 +110,12 @@ Ext.define('ToDoIt.controller.ToDo', {
 	
 		if(record) {
 			edit.getForm().updateRecord(record);	
-			console.log(record.save());
+			record.save({
+				success: function() {
+					this.loadToDos(this.currentFilter, record.getId());
+				},
+				scope: this
+			});
 		}
 	},
 	

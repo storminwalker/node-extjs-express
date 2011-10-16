@@ -69,7 +69,7 @@ Ext.define("ToDoIt.view.todo.Grid", {
 	},
 
 	formatTags: function(tags) {
-		return tags.join(", ");
+		return (tags || []).join(", ");
 	},
 	
 	formatDate: function(date) {

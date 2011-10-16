@@ -13,7 +13,7 @@ Ext.define("ToDoIt.controller.ToDo", {
         this.callParent([app]);
         
         this.get("/all", this.getAll);
-        this.rest("/:id", this.loadToDo);
+        this.rest();
         /*
         this.put(this.url("/:id"), this.update);
         this.post(this.url("/"), this.create);
@@ -67,8 +67,19 @@ Ext.define("ToDoIt.controller.ToDo", {
 
 }*/
 
+	loadByIdDirect: function(id, callback) {
+		console.log(arguments);
+		ToDoIt.model.ToDo.load(id, {
+			success: function(todo) {
+				callback(null, todo);
+			},
+			failure: function() {
+				callback("fucked up");
+			}
+		});
+	},
     
-    loadToDo: function(req, res, next) {
+    loadById: function(req, res, next) {
     	console.log("controller.loadTodo", req.params);
     
 		ToDoIt.model.ToDo.load(req.params.id, {
@@ -77,27 +88,62 @@ Ext.define("ToDoIt.controller.ToDo", {
 				next();
 			},
 			failure: function() {
-				res.send(500, {
-					success: false,
-					error: "Fucked up"
-				});
+				this.application.send500("fucked up", res);
 			}
 		});
 	},
 	
 	update: function(req, res) {
 	    console.log("controller.ToDo", "update");
-		console.log(req.todo.get("name"));
 		
 		req.todo.set(req.body);
-		
-		
-	    console.log(req.todo.get("name"));
+		this.save(req.todo, req, res);
     },
     
     create: function(req, res) {
 	    console.log("controller.ToDo", "create");
-    	console.log(req.body);
+    	
+    	var todo = Ext.create("ToDoIt.model.ToDo", req.body);
+    	console.log(todo.data)
+    	
+    	if(Ext.isEmpty(todo.get("createdOn"))) {
+    		todo.set("createdOn", new Date());
+    	}
+    	if(Ext.isString(todo.get("tags"))) {
+    		if(Ext.isEmpty(todo.get("tags"))) {
+    			todo.set("tags", []);
+    		} else {
+    			todo.set("tags", todo.get("tags").split(" "));
+    		}
+    	}
+    
+    	// server model only
+    	todo.set("type", "todo");
+    	todo.set("user_id", req.session.user._id);
+    
+    	this.save(todo, req, res);
+    },
+    
+    save: function(todo, req, res) {
+	    var me = this,
+    		app = me.application;
+    		
+		todo.validate(function(valid, errors) {
+    		if(valid) {
+    			todo.save({
+					success: function() {
+						console.log(todo.data);
+						me.sendModel(res, todo);
+					},
+					failure: function() {
+						console.log(arguments);
+						app.send500("The todo item could not be saved", res);
+					}
+				});
+    		} else {
+    			app.send500(errors, res);
+    		}	
+    	});
     },
     
     destroy: function(req, res) {
@@ -129,7 +175,6 @@ Ext.define("ToDoIt.controller.ToDo", {
 			},
 			scope: this
 		});
-		
     }
     /*
     

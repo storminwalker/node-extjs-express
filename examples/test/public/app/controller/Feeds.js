@@ -25,25 +25,27 @@ Ext.define('ToDoIt.controller.Feeds', {
     
     onLaunch: function() {
         if(ToDoIt.app.isLoggedIn()) {
+        
+        console.log("isLoggedIn!");
+        
 			var dataview = this.getToDoListDataView(),
-				store = this.getFeedsStore();
+				store = this.getFeedsStore(),
+				sm = dataview.getSelectionModel();
 				
 			dataview.bindStore(store);
-			dataview.getSelectionModel().select(store.getAt(0));
+			
+			sm.deselectAll(true);
+			sm.select(store.getAt(0));
         }
     },
     
     loadToDos: function(selModel, selected) {
-        var grid = this.getToDoGrid(),
-            store = this.getToDosStore(),
-            feed = selected[0];
+    console.log("selected!");
+        var feed = selected[0];
 
         if (feed) {
             this.getToDoShow().setTitle(feed.get("description"));
-            grid.enable();
-            store.load({
-                params: feed.get("params")
-            });            
+        	this.application.getController("ToDo").loadToDos(feed.get("params"));    
         }
     }
 });

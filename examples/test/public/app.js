@@ -28,6 +28,16 @@ Ext.application({
     	if(! this.isLoggedIn()) {
     		this.getController("Login").loadIndex();
     	}
+    	
+    	this.launchNow();
+    },
+    
+    launchNow: function() {
+       	var me = this;
+    	now.getClientController = function() {
+    		console.log(msg);
+    	}
+
     },
     
     autoCreateViewport: true,
