@@ -24,11 +24,10 @@ Ext.define('ToDoIt.controller.Feeds', {
     },
     
     onLaunch: function() {
+    	this.callParent(arguments);
+    	
         if(ToDoIt.app.isLoggedIn()) {
-        
-        console.log("isLoggedIn!");
-        
-			var dataview = this.getToDoListDataView(),
+        	var dataview = this.getToDoListDataView(),
 				store = this.getFeedsStore(),
 				sm = dataview.getSelectionModel();
 				

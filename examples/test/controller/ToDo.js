@@ -6,6 +6,10 @@ Ext.define("ToDoIt.controller.ToDo", {
 		"ToDoIt.model.ToDo"
 	],
 	
+	now: [
+		"loadByIdDirect"
+	],
+	
 	baseUrl: "/todo",
 	
 	// init the routing...

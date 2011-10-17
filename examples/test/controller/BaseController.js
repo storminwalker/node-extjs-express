@@ -39,12 +39,43 @@ Ext.define("ToDoIt.controller.BaseController", {
     extend: "Ext.app.Controller",
 
 	baseUrl: "",
-
+	now: [],
+	
 	// init the routing...
     init: function(app) {
         console.log("base");
     },
     
+    onLaunch: function() {
+    	this.launchNow();	
+    },
+    
+  	launchNow: function() {
+		var slice = Array.prototype.slice,
+			me = this,
+			app = me.application,
+			methods = Ext.Array.from(this.now),
+            ln = methods && methods.length,
+            i, 
+            method;
+
+		if(ln > 0 && this.id) {
+			var obj = {};
+			for (i = 0; i < ln; i++) {
+				obj[methods[i]] = this[methods[i]];
+			}
+			
+			app.now[this.id + "Server"] = obj;	
+		}
+		/*
+		everyone.now.getServerController = function(name, action){
+			var args = slice.call(arguments);
+			me.getController(name)[action].apply(me, args.slice(2));
+		}
+		*/
+	},
+	
+	
     authenticate: function(req, res, next) {
     	console.log("controller.BaseController", "authenticate");
     	

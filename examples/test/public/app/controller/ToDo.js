@@ -1,6 +1,6 @@
 
 Ext.define('ToDoIt.controller.ToDo', {
-    extend: 'Ext.app.Controller',
+    extend: 'ToDoIt.controller.BaseController',
     
     stores: ['ToDos'],
 
@@ -8,6 +8,10 @@ Ext.define('ToDoIt.controller.ToDo', {
 
     views: ['todo.Grid'],
 
+	now: [
+		"showOverdues"
+	],
+	
     refs: [{
         ref: 'toDoShow',
         selector: 'todoshow'
@@ -64,6 +68,10 @@ Ext.define('ToDoIt.controller.ToDo', {
         	},
         	scope: this
         });
+    },
+    
+    showOverdues: function() {
+    	Ext.Msg.alert("asdasdsdad");
     },
     
     onGridSelection: function(sm, records) {

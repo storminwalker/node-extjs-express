@@ -32,12 +32,10 @@ Ext.application({
     	this.launchNow();
     },
     
-    launchNow: function() {
-       	var me = this;
-    	now.getClientController = function() {
-    		console.log(msg);
+    launchNow: function() { 
+    	if(now) {
+    		this.now = now;
     	}
-
     },
     
     autoCreateViewport: true,
@@ -119,6 +117,10 @@ Ext.application({
 		var user = this.getLocalUserSettings();
 		Ext.apply(user, newUser);
 		window.localStorage.setItem("user", Ext.encode(user));
+	},
+	
+	getServerController: function(name) {
+		return this.now[name + "Server"];
 	}
 });
 
