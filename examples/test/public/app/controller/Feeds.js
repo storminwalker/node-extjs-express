@@ -39,7 +39,6 @@ Ext.define('ToDoIt.controller.Feeds', {
     },
     
     loadToDos: function(selModel, selected) {
-    console.log("selected!");
         var feed = selected[0];
 
         if (feed) {

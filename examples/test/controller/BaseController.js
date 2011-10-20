@@ -39,43 +39,12 @@ Ext.define("ToDoIt.controller.BaseController", {
     extend: "Ext.app.Controller",
 
 	baseUrl: "",
-	now: [],
 	
 	// init the routing...
     init: function(app) {
         console.log("base");
     },
     
-    onLaunch: function() {
-    	this.launchNow();	
-    },
-    
-  	launchNow: function() {
-		var slice = Array.prototype.slice,
-			me = this,
-			app = me.application,
-			methods = Ext.Array.from(this.now),
-            ln = methods && methods.length,
-            i, 
-            method;
-
-		if(ln > 0 && this.id) {
-			var obj = {};
-			for (i = 0; i < ln; i++) {
-				obj[methods[i]] = this[methods[i]];
-			}
-			
-			app.now[this.id + "Server"] = obj;	
-		}
-		/*
-		everyone.now.getServerController = function(name, action){
-			var args = slice.call(arguments);
-			me.getController(name)[action].apply(me, args.slice(2));
-		}
-		*/
-	},
-	
-	
     authenticate: function(req, res, next) {
     	console.log("controller.BaseController", "authenticate");
     	
@@ -143,49 +112,30 @@ Ext.define("ToDoIt.controller.BaseController", {
 			total_rows: 1,
 			rows: write([record], config)
 		});
-    }
+    },
     
-    /*
+    now: [],
+	
+    onLaunch: function() {
+    	this.launchNow();	
+    },
     
-    login: function(req, res, next) {
-	    var user = users[name];
-		if (!user) return fn(new Error('cannot find user'));
-		if (user.pass == hash(pass, user.salt)) return fn(null, user);
-		fn(new Error('invalid password'));
-    }
-    
-    function loadUser(req, res, next) {
-  // You would fetch your user from the db
-  var user = users[req.params.id];
-  if (user) {
-    req.user = user;
-    next();
-  } else {
-    next(new Error('Failed to load user ' + req.params.id));
-  }
-}
+  	launchNow: function() {
+		var slice = Array.prototype.slice,
+			me = this,
+			app = me.application,
+			methods = Ext.Array.from(this.now),
+            ln = methods && methods.length,
+            i, 
+            method;
 
-function andRestrictToSelf(req, res, next) {
-  // If our authenticated user is the user we are viewing
-  // then everything is fine :)
-  if (req.authenticatedUser.id == req.user.id) {
-    next();
-  } else {
-    // You may want to implement specific exceptions
-    // such as UnauthorizedError or similar so that you
-    // can handle these can be special-cased in an error handler
-    // (view ./examples/pages for this)
-    next(new Error('Unauthorized'));
-  }
-}
-
-function andRestrictTo(role) {
-  return function(req, res, next) {
-    if (req.authenticatedUser.role == role) {
-      next();
-    } else {
-      next(new Error('Unauthorized'));
-    }
-  }
-    */
+		if(ln > 0 && this.id) {
+			var obj = {};
+			for (i = 0; i < ln; i++) {
+				obj[methods[i]] = this[methods[i]];
+			}
+			
+			app.now[this.id + "Server"] = obj;	
+		}
+	}
 });

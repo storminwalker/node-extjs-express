@@ -12,7 +12,13 @@ Ext.define('ToDoIt.controller.ToDo', {
 		"showOverdues"
 	],
 	
-    refs: [{
+    refs: [{ 
+    	ref: 'toDoList', 
+    	selector: 'todolist'
+    }, { 
+    	ref: 'toDoListDataView', 
+    	selector: 'todolist dataview'
+    }, {
         ref: 'toDoShow',
         selector: 'todoshow'
     },{ 
@@ -31,11 +37,6 @@ Ext.define('ToDoIt.controller.ToDo', {
             "todogrid": {
                 selectionchange: this.onGridSelection
             },
-            "todogrid > store": {
-            	load: function() {
-            		console.log("grid loaded");
-            	}
-            },
             "todogrid button[action=add]": {
                 click: this.onToDoAdd
             },
@@ -47,6 +48,25 @@ Ext.define('ToDoIt.controller.ToDo', {
             },
             "todoedit button[action=cancel]": {
             	click: this.onCancelToDo
+            },
+            "todogrid .checkcolumn": {
+            	checkchange: function(col, index) {
+           			var store = this.getToDosStore(),
+	    				record = store.getAt(index),
+	    				feeds = this.getToDoListDataView().getSelectionModel().getSelection();
+	    
+	    			if(feeds && feeds.length > 0) {
+	    				if(feeds[0].get("name") == "All") {
+	    					record.commit(true);
+	    				} else {
+ 						    Ext.defer(function() { 
+ 						    	store.remove(record);
+ 						    }, 250);
+	    				}
+	    			}
+	    
+	    			this.setCompleted(record);	    
+            	}
             }
         });
         
@@ -143,6 +163,33 @@ Ext.define('ToDoIt.controller.ToDo', {
     	} else {
     		sm.select(record);
     	}
-	}
+	},
+	
+    setCompleted: function(records) {
+		if(! Ext.isArray(records)) {
+			records = [records];
+		}
+	
+		var postData = [];
+		
+		Ext.each(records, function(record) {
+		    postData.push({
+		    	id: record.getId(),
+		    	completed: record.get("completed")
+		    }); 			
+		});
+
+	    ToDoIt.util.Ajax.post({
+			url: "/todo/complete",
+			jsonData: postData,
+			success: function(response) {
+				console.log(response);
+			},
+			failure: function(response, opts) {
+				console.log(response);
+			},
+			scope: this
+		});
+    }
 });
 

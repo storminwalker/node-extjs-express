@@ -45,9 +45,7 @@ Ext.define("ToDoIt.util.JsonProxy", {
     },
     
     onException: function(request, response) {
-	    console.log(response);
-    	
-    	var msg = "An unexpected error has occurred.";
+	    var msg = "An unexpected error has occurred.";
     	if(response && response.responseText) {
     		try {
 				var error = Ext.decode(response.responseText);
