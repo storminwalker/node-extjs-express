@@ -6,27 +6,7 @@ Ext.define("ToDoIt.controller.Daemon", {
     init: function(app) {
         this.callParent([app]);
         
-        app.server.get("/process/overdues", Ext.bind(this.processOverdues, this));
-        
-        app.server.get("/perf",  Ext.bind(this.perfTest, this));
-    },
-    
-    perfTest: function(req, res) {
-   		var store = Ext.create("Ext.data.Store", {
-			model: "ToDoIt.model.ToDo",
-			
-			proxy: {
-				type: 'couch.store'
-			}
-		});
-    	
-    	store.load({
-			view: "todos/all",
-			callback: function() {
-				this.sendStore(res, store);
-			},
-			scope: this
-		});
+        app.server.get("/process/overdues", Ext.bind(this.processOverdues, this));     
     },
     
     processOverdues: function(req, res) {
