@@ -16,7 +16,7 @@ Ext.define("ToDoIt.controller.ToDo", {
 
         this.get("/tags", this.getTagCloud); // route for the tag cloud
 
-        this.post("/complete", this.setCompleted); // route for setting completed quickly
+        this.post("/complete", this.complete); // route for setting completed quickly
 
         this.rest(); // setting up the controller to handle any RESTful request
     },
@@ -66,7 +66,9 @@ Ext.define("ToDoIt.controller.ToDo", {
     		if(Ext.isEmpty(todo.get("tags"))) {
     			todo.set("tags", []);
     		} else {
-    			todo.set("tags", todo.get("tags").split(" "));
+    			todo.set("tags", todo.get("tags").split(",").map(function(tag) {
+    				return tag.trim();
+    			}));
     		}
     	}
     
@@ -141,12 +143,27 @@ Ext.define("ToDoIt.controller.ToDo", {
 		);
     },
     
-    setCompleted: function(req, res) {
+    complete: function(req, res) {
     	console.log("controller.ToDo", "setCompleted");
     
-    	req.body.forEach(function(record) {
-    		Ext.database.Couch.instance.merge(record.id, { completed: record.completed }, function(err, doc) {
-    			console.log(err, doc);
+    	this.setCompleted(req.body, function(result) {
+    		res.send(result);
+    	});
+    },
+    
+    setCompleted: function(toComplete, callback) {
+    	var waiting = toComplete.length;
+
+		function complete() {
+			if (!waiting) {
+			   callback({ success: true });
+			}
+		}
+
+    	toComplete.forEach(function(data) {
+    		Ext.database.Couch.instance.merge(data.id, { completed: data.completed }, function(err, doc) {
+    			waiting--;
+    			complete();
     		});
     	});
     },
@@ -171,7 +188,8 @@ Ext.define("ToDoIt.controller.ToDo", {
     },
     
 	now: [
-		"loadByIdDirect"
+		"loadByIdDirect",
+		"setCompleted"
 	]
 });
 

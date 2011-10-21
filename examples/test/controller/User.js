@@ -10,13 +10,15 @@ Ext.define("ToDoIt.controller.User", {
     init: function(app) {
         this.callParent([app]);
         
-        app.server.post("/login", this.login);
+        app.server.post("/login", Ext.bind(this.login, this));
         
         this.get("/users", this.getAll);
     },
     
     login: function(req, res) {
     	console.log("controller.User", "login");
+    	
+    	var me = this;
     	
     	ToDoIt.model.User.login(req.body.userName, req.body.password, function(err, user){
     		if(err) {
@@ -28,6 +30,12 @@ Ext.define("ToDoIt.controller.User", {
     		}
     		
 			req.session.regenerate(function(){
+				var socketSession = me.application.connectedUsers.get(req.cookies[me.application.sessionConfig.key]);
+				if(socketSession) {
+					socketSession.userId = user.getId();
+					me.application.connectedUsers.replace(socketSession.sessionId, socketSession);
+				}
+				
 				req.session.user = user.data;
 				res.send({
 					success: true,

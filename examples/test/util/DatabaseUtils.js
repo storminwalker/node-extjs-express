@@ -41,28 +41,28 @@ db.save("_design/todos", {
 			},
 			reduce: function(key, values, rereduce){
 				var hash = {}
-				if (!rereduce){
-					for (var i in values){
-						var tag = values[i]
-						hash[tag] = (hash[tag] || 0) + 1
+				if (! rereduce) {
+					for (var i in values) {
+						var tag = values[i];
+						hash[tag] = (hash[tag] || 0) + 1;
 					}
-				}else{
-					for (var i in values){
-						var topN = values[i]
-						for (var i in topN){
-							var pair = topN[i]
-							var tag = pair[0]
-							hash[tag] = (hash[tag] || 0) + pair[1]
+				} else {
+					for (var i in values) {
+						var topN = values[i];
+						for (var i in topN) {
+							var pair = topN[i];
+							var tag = pair[0];
+							hash[tag] = (hash[tag] || 0) + pair[1];
 						}
 					}
 				}
-				var all = []
+				var all = [];
 				for (var key in hash) {
-					all.push({ tag: key, count: hash[key] })
+					all.push({ tag: key, count: hash[key] });
 				}
 				
 				return all.sort(function(one, other){
-					return other[1] - one[1]
+					return other[1] - one[1];
 				});
 			}
 		},
@@ -96,9 +96,6 @@ db.save("_design/users", {
 	            if(doc.type && doc.type == "user") {
             		emit(doc._id, doc);
             	}
-            },
-            reduce: function(keys, counts, rereduce) {
-                return sum(counts);
             }
         }
     }    

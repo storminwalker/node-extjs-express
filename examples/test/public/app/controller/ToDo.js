@@ -79,7 +79,7 @@ Ext.define('ToDoIt.controller.ToDo', {
 		var grid = this.getToDoGrid(),
 			store = this.getToDosStore();
         	    
-    	this.currentFilter = filter;
+    	this.currentFilter = filter || this.currentFilter;
     	
     	store.load({
         	params: this.currentFilter,
@@ -90,18 +90,18 @@ Ext.define('ToDoIt.controller.ToDo', {
         });
     },
     
-    showOverdues: function() {
-    	Ext.Msg.alert("asdasdsdad");
-    },
-    
     onGridSelection: function(sm, records) {
+    	var edit = this.getToDoEdit();
        	this.getToDoGrid().down('#deleteTodo').setDisabled(!records.length);
     	
 		if (records[0]) {
-			this.getToDoEdit().expand(true);		
-			this.getToDoEdit().getForm().loadRecord(records[0]);
+			edit.enable();
+			edit.expand(true);		
+			edit.getForm().loadRecord(records[0]);
 			
-			this.getToDoEdit().down(".textfield[name=name]").focus();
+			edit.down(".textfield[name=name]").focus();
+		} else {
+			edit.disable();
 		}
     },
     
@@ -111,7 +111,7 @@ Ext.define('ToDoIt.controller.ToDo', {
     		
 		// Create a model instance
 		var r = Ext.create("ToDoIt.model.ToDo", {
-			createdDate: new Date(),
+			createdOn: new Date(),
 			dueOn: new Date(),
 			priority: 5,
 			status: "Open"
@@ -165,6 +165,25 @@ Ext.define('ToDoIt.controller.ToDo', {
     	}
 	},
 	
+    showOverdues: function(ids) {
+    	Ext.Msg.show({
+			 title: 'ToDos Overdue?',
+			 msg: Ext.util.Format.format("You have {0} overdue todos. Would you like to make those go away?", ids.length),
+			 buttons: Ext.Msg.YESNO,
+			 icon: Ext.Msg.QUESTION,
+			 callback: function(btn) {
+			 	if(btn.toLowerCase() == "yes") {			 		
+			 		ToDoIt.app.getServerController("ToDo").setCompleted(
+			 			ids.map(function(id) { return { id: id, completed: true } }),
+			 			function() {
+				 			ToDoIt.app.getController("ToDo").loadToDos();
+			 			}
+			 		);
+			 	}	
+			 }
+		});
+	},
+    
     setCompleted: function(records) {
 		if(! Ext.isArray(records)) {
 			records = [records];

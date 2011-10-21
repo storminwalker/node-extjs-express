@@ -4,7 +4,8 @@
 	"version": "0.9.1",
 	"dependencies": {
 		"now": ">=0.7.0",
-		"ejs": ">=0.0.1"
+		"ejs": ">=0.0.1",
+		"connect": "1.x"
 	},
 	"engines": {
 		"node": ">= 0.4.1 < 0.5.0" 

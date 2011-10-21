@@ -31,13 +31,13 @@ Ext.define("ToDoIt.view.todo.Edit", {
 				items: [{
 					items: [{
 						xtype: 'datefield',
-						fieldLabel: 'Start Date',
-						name: "createdDate",
-						anchor:'96%'
-					},{
-						xtype: 'datefield',
 						fieldLabel: 'Due Date',
 						name: "dueOn",
+						anchor:'96%'
+					},{
+						xtype: 'textfield',
+						fieldLabel: 'Tags',
+						name: "tags",
 						anchor:'96%'
 					}]
 				},{
