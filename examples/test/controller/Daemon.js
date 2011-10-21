@@ -6,7 +6,7 @@ Ext.define("ToDoIt.controller.Daemon", {
     init: function(app) {
         this.callParent([app]);
         
-        app.server.get("/process/overdue", Ext.bind(this.processOverdues, this));
+        app.server.get("/process/overdues", Ext.bind(this.processOverdues, this));
     },
     
     processOverdues: function(req, res) {
