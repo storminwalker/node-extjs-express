@@ -6,7 +6,8 @@ Ext.define("ToDoIt.controller.Daemon", {
     init: function(app) {
         this.callParent([app]);
         
-        app.server.get("/process/overdues", Ext.bind(this.processOverdues, this));     
+        app.server.get("/process/overdues", 
+        	Ext.bind(this.processOverdues, this));     
     },
     
     processOverdues: function(req, res) {
@@ -47,7 +48,8 @@ Ext.define("ToDoIt.controller.Daemon", {
 			callback: function() {
 				var ids = [];
 				store.each(function(record) {
-					if(record.get("dueOn") < Ext.Date.clearTime(new Date())) {
+					if(record.get("dueOn") < 
+						Ext.Date.clearTime(new Date())) {
 						ids.push(record.getId());
 					}
 				}, this);
@@ -70,16 +72,10 @@ Ext.define("ToDoIt.controller.Daemon", {
 		}, me);
 		
 		if(socket) {
-			console.log(socket);
-		
 			app.nowjs.getClient(socket.clientId, function(err) {
-				if(this.now) {
-					app.getClientController("ToDo", this.now).showOverdues(ids);
-				}
+				app.getClientController("ToDo", this.now).showOverdues(ids);
 			});
-		} else {
-			console.log("no socket for " + userId);
-		}		
+		}	
     }
 });
     
