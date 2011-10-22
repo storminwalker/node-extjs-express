@@ -21,8 +21,8 @@ new Ext.express.Application({
 		"Viz"
 	],
 	
-	port: 5000,
-	hostname: "127.0.0.1",
+	port: 80,
+	hostname: undefined,// "127.0.0.1",
 	
 	configureExpress: function(express, server) {
 		server.use(express.logger(':method :url :status'));

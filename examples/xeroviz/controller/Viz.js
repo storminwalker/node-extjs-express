@@ -48,7 +48,7 @@ Ext.define("XERO.controller.Viz", {
     	next();
 
 		var qs = Ext.Object.fromQueryString(req.url);
-		qs.ip = qs.ip || request.headers["x-forwarded-for"] || request.connection.remoteAddress;
+		qs.ip = qs.ip || req.headers["x-forwarded-for"] || req.connection.remoteAddress;
 		
 	    this.broadcastLocation({
 	    	ip: qs.ip
