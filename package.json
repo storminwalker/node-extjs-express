@@ -4,7 +4,7 @@
 	"main": "node-extjs-express",
 	"homepage": "https://github.com/storminwalker/node-extjs-express",
 	"description": "ExtJS module for Node and ExpressJS",
-	"version": "0.0.1",
+	"version": "0.1.1",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/storminwalker/node-extjs-express"
